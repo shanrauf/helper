@@ -169,6 +169,7 @@ const MessageThreadPanel = ({
   setPreviewFileIndex: (index: number) => void;
   setPreviewFiles: (files: AttachedFile[]) => void;
 }) => {
+  const { data: mailboxPreferences } = api.mailbox.get.useQuery();
   const { data: conversationInfo } = useConversationContext();
   const { conversationListData, currentIndex, moveToNextConversation } = useConversationListContext();
   const nextConversation = conversationListData?.conversations[currentIndex + 1] ?? null;
@@ -196,7 +197,7 @@ const MessageThreadPanel = ({
         </div>
       </div>
       <div className="sticky bottom-4 left-4 right-4 z-10 flex flex-col gap-2 mx-4 mt-2">
-        {nextConversation && (
+        {!mailboxPreferences?.preferences?.disableNextTicketPreview && nextConversation && (
           <div
             className={cn(
               "transition-all duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted transform cursor-pointer hover:shadow-sm hover:scale-[1.01]",
