@@ -104,7 +104,7 @@ const ScrollToTopButton = ({
 
       timeoutId = setTimeout(() => {
         const scrollTop = scrollElement.scrollTop;
-        const threshold = 200;
+        const threshold = 100;
 
         // Show button whenever scrolled past threshold
         setShow(scrollTop > threshold);
