@@ -173,7 +173,6 @@ const MessageThreadPanel = ({
   const { data: conversationInfo } = useConversationContext();
   const { conversationListData, currentIndex, moveToNextConversation } = useConversationListContext();
   const nextConversation = conversationListData?.conversations[currentIndex + 1] ?? null;
-  const show = useScrollVisibility(scrollRef);
 
   return (
     <div
@@ -196,19 +195,22 @@ const MessageThreadPanel = ({
           )}
         </div>
       </div>
-      <div className="sticky bottom-4 left-4 right-4 z-10 flex flex-col gap-2 mx-4 mt-2">
-        {!mailboxPreferences?.preferences?.disableNextTicketPreview && nextConversation && (
-          <div
-            className={cn(
-              "transition-all duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted transform cursor-pointer hover:shadow-sm hover:scale-[1.01]",
-              show ? "translate-y-0" : "translate-y-12 mb-4",
-            )}
-            onClick={moveToNextConversation}
-          >
-            <ConversationListItemContent conversation={nextConversation} variant="next-ticket-preview" />
+      <div className="sticky bottom-4 left-4 right-4 z-10 mx-4 mt-2">
+        <div className="relative">
+          <div className="absolute -top-12 left-0 z-10">
+            <ScrollToTopButton scrollRef={scrollRef} />
           </div>
-        )}
-        <ScrollToTopButton scrollRef={scrollRef} />
+          {!mailboxPreferences?.preferences?.disableNextTicketPreview && nextConversation && (
+            <div
+              className={cn(
+                "transition-all duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted transform cursor-pointer hover:shadow-sm hover:scale-[1.01]",
+              )}
+              onClick={moveToNextConversation}
+            >
+              <ConversationListItemContent conversation={nextConversation} variant="next-ticket-preview" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
