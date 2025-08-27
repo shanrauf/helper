@@ -170,7 +170,7 @@ const MessageThreadPanel = ({
   setPreviewFiles: (files: AttachedFile[]) => void;
 }) => {
   const { data: conversationInfo } = useConversationContext();
-  const { conversationListData, currentIndex } = useConversationListContext();
+  const { conversationListData, currentIndex, moveToNextConversation } = useConversationListContext();
   const nextConversation = conversationListData?.conversations[currentIndex + 1] ?? null;
   const show = useScrollVisibility(scrollRef);
 
@@ -199,9 +199,10 @@ const MessageThreadPanel = ({
         {nextConversation && (
           <div
             className={cn(
-              "transition-transform duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted shadow-sm transform",
-              show ? "translate-y-0" : "translate-y-12",
+              "transition-all duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted transform cursor-pointer hover:shadow-sm hover:scale-[1.01]",
+              show ? "translate-y-0" : "translate-y-12 mb-4",
             )}
+            onClick={moveToNextConversation}
           >
             <ConversationListItemContent conversation={nextConversation} variant="next-ticket-preview" />
           </div>
