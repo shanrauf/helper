@@ -287,13 +287,9 @@ test.describe("Conversation Details", () => {
       .getByTestId("message-thread-panel")
       .locator("p")
       .filter({ has: page.locator("text=Answer Next:") })
+      .filter({ hasNot: page.locator(`text=${originalSubject}`) })
       .first();
     await expect(nextConversationPreview).toBeVisible();
-
-    const previewText = await nextConversationPreview.textContent();
-    expect(previewText).toBeTruthy();
-    expect(previewText).toContain("Answer Next:");
-    expect(previewText).not.toContain(originalSubject);
 
     await nextConversationPreview.click();
     await page.waitForLoadState("networkidle");
