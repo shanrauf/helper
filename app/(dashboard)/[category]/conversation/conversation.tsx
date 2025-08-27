@@ -85,11 +85,9 @@ const CopyLinkButton = () => {
   );
 };
 
-const ScrollToTopButton = ({
-  scrollRef,
-}: {
-  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>;
-}) => {
+const useScrollVisibility = (
+  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>,
+) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -120,6 +118,15 @@ const ScrollToTopButton = ({
     };
   }, [scrollRef]);
 
+  return show;
+};
+
+const ScrollToTopButton = ({
+  scrollRef,
+}: {
+  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>;
+}) => {
+  const show = useScrollVisibility(scrollRef);
   const scrollToTop = () => {
     scrollRef.current?.scrollTo({
       top: 0,
@@ -132,7 +139,7 @@ const ScrollToTopButton = ({
       <TooltipTrigger asChild>
         <button
           className={cn(
-            "sticky bottom-4 left-4 z-10 transition-all duration-200 h-8 w-8 p-0 rounded-full",
+            "transition-all duration-200 h-8 w-8 p-0 rounded-full",
             "flex items-center justify-center",
             "bg-background border border-border shadow-xs cursor-pointer",
             "hover:border-primary hover:shadow-md hover:bg-muted",
@@ -165,9 +172,14 @@ const MessageThreadPanel = ({
   const { data: conversationInfo } = useConversationContext();
   const { conversationListData, currentIndex } = useConversationListContext();
   const nextConversation = conversationListData?.conversations[currentIndex + 1] ?? null;
+  const show = useScrollVisibility(scrollRef);
 
   return (
-    <div className="grow overflow-y-auto relative" ref={scrollRef} data-testid="message-thread-panel">
+    <div
+      className="grow overflow-y-auto relative flex flex-col justify-between"
+      ref={scrollRef}
+      data-testid="message-thread-panel"
+    >
       <div ref={contentRef as React.RefObject<HTMLDivElement>} className="relative">
         <div className="flex flex-col gap-8 px-4 py-4 h-full">
           {conversationInfo && (
@@ -183,14 +195,19 @@ const MessageThreadPanel = ({
           )}
         </div>
       </div>
-      {/* {nextConversation && (
-        <div className="sticky bottom-4 left-4 right-4 z-10">
-          <div className="px-3 py-2 border rounded-lg bg-muted/30 shadow-sm">
-            <ConversationListItemContent conversation={nextConversation} />
+      <div className="sticky bottom-8 left-4 right-4 z-10 flex flex-col gap-2 m-4">
+        {nextConversation && (
+          <div
+            className={cn(
+              "transition-transform duration-200 ease-in-out px-3 py-2 border rounded-lg bg-muted shadow-sm transform",
+              show ? "translate-y-0" : "translate-y-12",
+            )}
+          >
+            <ConversationListItemContent conversation={nextConversation} variant="next-ticket-preview" />
           </div>
-        </div>
-      )} */}
-      <ScrollToTopButton scrollRef={scrollRef} />
+        )}
+        <ScrollToTopButton scrollRef={scrollRef} />
+      </div>
     </div>
   );
 };

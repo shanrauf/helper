@@ -58,9 +58,13 @@ export const ConversationListItem = ({
 
 type ConversationListItemContentProps = {
   conversation: ListItem;
+  variant?: "default" | "next-ticket-preview";
 };
 
-export const ConversationListItemContent = ({ conversation }: ConversationListItemContentProps) => {
+export const ConversationListItemContent = ({
+  conversation,
+  variant = "default",
+}: ConversationListItemContentProps) => {
   const { searchParams } = useConversationsListInput();
   const searchTerms = searchParams.search ? searchParams.search.split(/\s+/).filter(Boolean) : [];
 
@@ -81,11 +85,14 @@ export const ConversationListItemContent = ({ conversation }: ConversationListIt
     }
   }
 
+  const emailFrom = conversation.emailFrom ?? "Anonymous";
+  const displayEmailFrom = variant === "next-ticket-preview" ? `Answer Next: ${emailFrom}` : emailFrom;
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <p className="text-muted-foreground truncate text-xs md:text-sm">{conversation.emailFrom ?? "Anonymous"}</p>
+          <p className="text-muted-foreground truncate text-xs md:text-sm">{displayEmailFrom}</p>
           {conversation.platformCustomer?.value &&
             (conversation.platformCustomer.isVip ? (
               <TooltipProvider delayDuration={0}>
