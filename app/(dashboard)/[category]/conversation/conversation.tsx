@@ -153,7 +153,7 @@ const ScrollToTopButton = ({
           <ArrowUp className="h-4 w-4 text-foreground" />
         </button>
       </TooltipTrigger>
-      <TooltipContent>Scroll to top</TooltipContent>
+      <TooltipContent align="start">Scroll to top</TooltipContent>
     </Tooltip>
   );
 };
