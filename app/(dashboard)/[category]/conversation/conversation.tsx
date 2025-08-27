@@ -21,6 +21,7 @@ import {
 import { MessageThread } from "@/app/(dashboard)/[category]/conversation/messageThread";
 import Viewers from "@/app/(dashboard)/[category]/conversation/viewers";
 import { useConversationListContext } from "@/app/(dashboard)/[category]/list/conversationListContext";
+import { ConversationListItemContent } from "@/app/(dashboard)/[category]/list/conversationListItem";
 import PreviewModal from "@/app/(dashboard)/[category]/previewModal";
 import {
   type AttachedFile,
@@ -162,22 +163,33 @@ const MessageThreadPanel = ({
   setPreviewFiles: (files: AttachedFile[]) => void;
 }) => {
   const { data: conversationInfo } = useConversationContext();
+  const { conversationListData, currentIndex } = useConversationListContext();
+  const nextConversation = conversationListData?.conversations[currentIndex + 1] ?? null;
 
   return (
     <div className="grow overflow-y-auto relative" ref={scrollRef} data-testid="message-thread-panel">
       <div ref={contentRef as React.RefObject<HTMLDivElement>} className="relative">
         <div className="flex flex-col gap-8 px-4 py-4 h-full">
           {conversationInfo && (
-            <MessageThread
-              conversation={conversationInfo}
-              onPreviewAttachment={(message, currentIndex) => {
-                setPreviewFileIndex(currentIndex);
-                setPreviewFiles(message.files);
-              }}
-            />
+            <>
+              <MessageThread
+                conversation={conversationInfo}
+                onPreviewAttachment={(message, currentIndex) => {
+                  setPreviewFileIndex(currentIndex);
+                  setPreviewFiles(message.files);
+                }}
+              />
+            </>
           )}
         </div>
       </div>
+      {/* {nextConversation && (
+        <div className="sticky bottom-4 left-4 right-4 z-10">
+          <div className="px-3 py-2 border rounded-lg bg-muted/30 shadow-sm">
+            <ConversationListItemContent conversation={nextConversation} />
+          </div>
+        </div>
+      )} */}
       <ScrollToTopButton scrollRef={scrollRef} />
     </div>
   );
