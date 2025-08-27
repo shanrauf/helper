@@ -85,9 +85,11 @@ const CopyLinkButton = () => {
   );
 };
 
-const useScrollVisibility = (
-  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>,
-) => {
+const ScrollToTopButton = ({
+  scrollRef,
+}: {
+  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>;
+}) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -117,16 +119,6 @@ const useScrollVisibility = (
       }
     };
   }, [scrollRef]);
-
-  return show;
-};
-
-const ScrollToTopButton = ({
-  scrollRef,
-}: {
-  scrollRef: React.MutableRefObject<HTMLElement | null> & React.RefCallback<HTMLElement>;
-}) => {
-  const show = useScrollVisibility(scrollRef);
   const scrollToTop = () => {
     scrollRef.current?.scrollTo({
       top: 0,
