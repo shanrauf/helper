@@ -43,7 +43,7 @@ const NextTicketPreviewSetting = ({ mailbox }: { mailbox: RouterOutputs["mailbox
       </div>
       <SwitchSectionWrapper
         title="Show Next Ticket Preview"
-        description="Display a preview of the next ticket while answering the current one. This helps agents prepare for the next conversation and work more efficiently."
+        description="Display a preview of the next ticket while answering the current one"
         initialSwitchChecked={nextTicketPreviewEnabled}
         onSwitchChange={handleSwitchChange}
       >
