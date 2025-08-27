@@ -119,6 +119,7 @@ const ScrollToTopButton = ({
       }
     };
   }, [scrollRef]);
+
   const scrollToTop = () => {
     scrollRef.current?.scrollTo({
       top: 0,
