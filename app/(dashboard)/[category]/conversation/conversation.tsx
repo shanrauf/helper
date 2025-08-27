@@ -102,7 +102,7 @@ const useScrollVisibility = (
 
       timeoutId = setTimeout(() => {
         const scrollTop = scrollElement.scrollTop;
-        const threshold = 100;
+        const threshold = 200;
 
         // Show button whenever scrolled past threshold
         setShow(scrollTop > threshold);
