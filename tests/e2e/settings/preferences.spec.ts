@@ -60,7 +60,7 @@ test.describe("Settings - Preferences", () => {
     }
   });
 
-  test("should allow toggling the next ticket preview", async ({ page }) => {
+  test("should allow toggling on/off the next ticket preview", async ({ page }) => {
     const nextTicketPreviewSetting = page.locator('h2:text("Show Next Ticket Preview")');
     const nextTicketPreviewSwitch = page.locator('[aria-label="Show Next Ticket Preview Switch"]');
 
