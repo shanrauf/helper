@@ -195,7 +195,7 @@ const MessageThreadPanel = ({
           )}
         </div>
       </div>
-      <div className="sticky bottom-8 left-4 right-4 z-10 flex flex-col gap-2 m-4">
+      <div className="sticky bottom-4 left-4 right-4 z-10 flex flex-col gap-2 mx-4 mt-2">
         {nextConversation && (
           <div
             className={cn(
