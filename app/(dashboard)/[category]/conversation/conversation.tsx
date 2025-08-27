@@ -183,15 +183,13 @@ const MessageThreadPanel = ({
       <div ref={contentRef as React.RefObject<HTMLDivElement>} className="relative">
         <div className="flex flex-col gap-8 px-4 py-4 h-full">
           {conversationInfo && (
-            <>
-              <MessageThread
-                conversation={conversationInfo}
-                onPreviewAttachment={(message, currentIndex) => {
-                  setPreviewFileIndex(currentIndex);
-                  setPreviewFiles(message.files);
-                }}
-              />
-            </>
+            <MessageThread
+              conversation={conversationInfo}
+              onPreviewAttachment={(message, currentIndex) => {
+                setPreviewFileIndex(currentIndex);
+                setPreviewFiles(message.files);
+              }}
+            />
           )}
         </div>
       </div>
