@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Crown } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/trpc/react";
@@ -89,12 +89,8 @@ export default function StatsPage() {
               >
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 w-16">
-                    {index === 0 && (
-                      <Crown className="h-8 w-8 text-yellow-500 fill-yellow-500" />
-                    )}
-                    <div className="text-4xl font-bold text-muted-foreground">
-                      #{index + 1}
-                    </div>
+                    {index === 0 && <Crown className="h-8 w-8 text-yellow-500 fill-yellow-500" />}
+                    <div className="text-4xl font-bold text-muted-foreground">#{index + 1}</div>
                   </div>
                   <div>
                     <div className="text-2xl font-semibold">{member.displayName}</div>

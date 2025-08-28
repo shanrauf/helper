@@ -35,10 +35,10 @@ test.describe("Stats Dashboard", () => {
     await expect(unassignedCard).toBeVisible();
     await expect(mineCard).toBeVisible();
 
-    const largeNumbers = page.locator('.text-8xl');
+    const largeNumbers = page.locator(".text-8xl");
     await expect(largeNumbers).toHaveCount(4);
 
-    const allOpenNumber = allOpenCard.locator('.text-8xl');
+    const allOpenNumber = allOpenCard.locator(".text-8xl");
     const allOpenText = await allOpenNumber.textContent();
     expect(allOpenText).toMatch(/^\d+$/);
 
@@ -56,19 +56,19 @@ test.describe("Stats Dashboard", () => {
 
     const leaderboardEntries = page.locator('[data-testid="leaderboard-entry"]');
     const emptyMessage = page.locator('div:has-text("No activity in the selected time period")');
-    
-    const hasEntries = await leaderboardEntries.count() > 0;
+
+    const hasEntries = (await leaderboardEntries.count()) > 0;
     const hasEmptyMessage = await emptyMessage.isVisible();
-    
+
     expect(hasEntries || hasEmptyMessage).toBe(true);
 
     if (hasEntries) {
       const firstEntry = leaderboardEntries.first();
       await expect(firstEntry.locator('div:has-text("#1")')).toBeVisible();
-      
-      const replyCount = firstEntry.locator('.text-5xl');
+
+      const replyCount = firstEntry.locator(".text-5xl");
       await expect(replyCount).toBeVisible();
-      
+
       const replyCountText = await replyCount.textContent();
       expect(replyCountText).toMatch(/^\d+$/);
     }
@@ -91,13 +91,13 @@ test.describe("Stats Dashboard", () => {
 
     await todayButton.click();
     await waitForNetworkIdle(page);
-    
+
     const todayTitle = page.locator('h2:has-text("Team Leaderboard - Last 1 days")');
     await expect(todayTitle).toBeVisible();
 
     await thirtyDaysButton.click();
     await waitForNetworkIdle(page);
-    
+
     const thirtyDaysTitle = page.locator('h2:has-text("Team Leaderboard - Last 30 days")');
     await expect(thirtyDaysTitle).toBeVisible();
 
@@ -105,26 +105,26 @@ test.describe("Stats Dashboard", () => {
   });
 
   test("should be optimized for wall projection", async ({ page }) => {
-    const largeHeading = page.locator('.text-6xl');
+    const largeHeading = page.locator(".text-6xl");
     await expect(largeHeading).toBeVisible();
 
-    const largeNumbers = page.locator('.text-8xl');
+    const largeNumbers = page.locator(".text-8xl");
     await expect(largeNumbers).toHaveCount(4);
 
-    const largeReplyCount = page.locator('.text-5xl');
+    const largeReplyCount = page.locator(".text-5xl");
     const replyCountElements = await largeReplyCount.count();
     expect(replyCountElements).toBeGreaterThanOrEqual(0);
 
-    const mainContainer = page.locator('main');
+    const mainContainer = page.locator("main");
     await expect(mainContainer).toHaveClass(/p-8/);
 
-    const cardGrid = page.locator('.grid');
+    const cardGrid = page.locator(".grid");
     await expect(cardGrid).toBeVisible();
 
-    const blueNumbers = page.locator('.text-blue-600');
-    const greenNumbers = page.locator('.text-green-600');
-    const orangeNumbers = page.locator('.text-orange-600');
-    const purpleNumbers = page.locator('.text-purple-600');
+    const blueNumbers = page.locator(".text-blue-600");
+    const greenNumbers = page.locator(".text-green-600");
+    const orangeNumbers = page.locator(".text-orange-600");
+    const purpleNumbers = page.locator(".text-purple-600");
 
     await expect(blueNumbers).toHaveCount(1);
     await expect(greenNumbers).toHaveCount(1);
@@ -145,7 +145,7 @@ test.describe("Stats Dashboard", () => {
 
     await waitForNetworkIdle(page);
 
-    const numbers = page.locator('.text-8xl');
+    const numbers = page.locator(".text-8xl");
     await expect(numbers).toHaveCount(4);
 
     for (let i = 0; i < 4; i++) {
