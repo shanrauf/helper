@@ -89,7 +89,7 @@ export const generateSampleQuestions = async (): Promise<SampleQuestion[]> => {
       await cache.set(filteredQuestions, 60 * 15);
       return filteredQuestions;
 
-    } catch (error) {
+    } catch (_error) {
       const fallbackQuestions = [
         { text: "How do I get started?", emoji: "🚀" },
         { text: "What are your pricing plans?", emoji: "💰" },
@@ -102,7 +102,7 @@ export const generateSampleQuestions = async (): Promise<SampleQuestion[]> => {
       await cache.set(fallbackQuestions, 60 * 15);
       return fallbackQuestions;
     }
-  } catch (cacheError) {
+  } catch (_cacheError) {
     return [
       { text: "How do I get started?", emoji: "🚀" },
       { text: "What are your pricing plans?", emoji: "💰" },
