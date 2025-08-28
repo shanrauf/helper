@@ -10,6 +10,7 @@ import { formatCurrency } from "@/components/utils/currency";
 import { createSearchSnippet } from "@/lib/search/searchSnippet";
 import { useConversationsListInput } from "../shared/queries";
 import { highlightKeywords } from "./filters/highlightKeywords";
+import { UnreadIndicator } from "./unreadIndicator";
 
 type ListItem = ConversationListItemType & { isNew?: boolean };
 
@@ -62,7 +63,7 @@ type ConversationListItemContentProps = {
 };
 
 export const ConversationListItemContent = ({ conversation, emailPrefix }: ConversationListItemContentProps) => {
-  const { searchParams } = useConversationsListInput();
+  const { searchParams, input } = useConversationsListInput();
   const searchTerms = searchParams.search ? searchParams.search.split(/\s+/).filter(Boolean) : [];
 
   let highlightedSubject = escape(conversation.subject);
@@ -108,6 +109,7 @@ export const ConversationListItemContent = ({ conversation, emailPrefix }: Conve
                 {formatCurrency(parseFloat(conversation.platformCustomer.value))}
               </Badge>
             ))}
+          {input.displayUnreadBehavior && <UnreadIndicator hasUnread={!!conversation.unreadMessageCount} />}
         </div>
         <div className="flex items-center gap-3 shrink-0">
           {(conversation.assignedToId || conversation.assignedToAI) && (
