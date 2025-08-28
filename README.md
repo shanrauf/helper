@@ -51,6 +51,12 @@ _The app will start with placeholder values for other services - you can follow 
 pnpm install
 ```
 
+### Build packages
+
+```sh
+pnpm run-on-packages build
+```
+
 ### Seed the database with sample data
 
 ```sh
