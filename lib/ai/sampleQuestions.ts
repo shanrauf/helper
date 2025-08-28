@@ -90,7 +90,6 @@ export const generateSampleQuestions = async (): Promise<SampleQuestion[]> => {
       return filteredQuestions;
 
     } catch (error) {
-      console.error('Error generating sample questions:', error);
       const fallbackQuestions = [
         { text: "How do I get started?", emoji: "🚀" },
         { text: "What are your pricing plans?", emoji: "💰" },
@@ -104,7 +103,6 @@ export const generateSampleQuestions = async (): Promise<SampleQuestion[]> => {
       return fallbackQuestions;
     }
   } catch (cacheError) {
-    console.error('Cache error:', cacheError);
     return [
       { text: "How do I get started?", emoji: "🚀" },
       { text: "What are your pricing plans?", emoji: "💰" },
