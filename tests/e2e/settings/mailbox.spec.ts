@@ -3,7 +3,7 @@ import { waitForSettingsSaved } from "../utils/settingsHelpers";
 
 test.use({ storageState: "tests/e2e/.auth/user.json" });
 
-test.describe("Settings - Mailbox settings", () => {
+test.describe("Settings - Mailbox", () => {
   test.beforeEach(async ({ page }) => {
     try {
       await page.goto("/settings/mailbox");

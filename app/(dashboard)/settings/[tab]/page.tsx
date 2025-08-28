@@ -75,7 +75,7 @@ export default function TabsPage() {
       ),
     },
     {
-      label: "Mailbox settings",
+      label: "Mailbox",
       id: "mailbox",
       content: <MailboxSetting mailbox={mailbox} />,
     },
