@@ -156,7 +156,7 @@ export const mailboxRouter = {
         )
         .groupBy(conversationMessages.userId);
 
-      const userIds = staffReplies.map(r => r.userId).filter(Boolean);
+      const userIds = staffReplies.map(r => r.userId).filter((id): id is string => id !== null);
       const users = await db.query.userProfiles.findMany({
         where: inArray(userProfiles.id, userIds),
         with: {
