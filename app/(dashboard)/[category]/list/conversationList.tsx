@@ -1,5 +1,4 @@
 import { Send } from "lucide-react";
-import { useQueryState } from "nuqs";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toast } from "sonner";
