@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/trpc/react";
@@ -81,9 +82,20 @@ export default function StatsPage() {
         <CardContent>
           <div className="space-y-4">
             {leaderboardData?.leaderboard.map((member, index) => (
-              <div key={member.userId} className="flex items-center justify-between p-6 bg-muted/50 rounded-lg">
+              <div
+                key={member.userId}
+                data-testid="leaderboard-entry"
+                className="flex items-center justify-between p-6 bg-muted/50 rounded-lg"
+              >
                 <div className="flex items-center gap-4">
-                  <div className="text-4xl font-bold text-muted-foreground w-12">#{index + 1}</div>
+                  <div className="flex items-center gap-2 w-16">
+                    {index === 0 && (
+                      <Crown className="h-8 w-8 text-yellow-500 fill-yellow-500" />
+                    )}
+                    <div className="text-4xl font-bold text-muted-foreground">
+                      #{index + 1}
+                    </div>
+                  </div>
                   <div>
                     <div className="text-2xl font-semibold">{member.displayName}</div>
                     <div className="text-lg text-muted-foreground">{member.email}</div>
