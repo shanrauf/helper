@@ -26,7 +26,7 @@ export default function StatsPage() {
           {dayOptions.map((option) => (
             <Button
               key={option.value}
-              variant={selectedDays === option.value ? "default" : "outline"}
+              variant={selectedDays === option.value ? "default" : "outlined"}
               onClick={() => setSelectedDays(option.value)}
               className="text-lg px-6 py-3"
             >
