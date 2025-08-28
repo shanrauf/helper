@@ -198,7 +198,7 @@ const MessageThreadPanel = ({
               )}
               onClick={moveToNextConversation}
             >
-              <ConversationListItemContent conversation={nextConversation} variant="next-ticket-preview" />
+              <ConversationListItemContent conversation={nextConversation} emailPrefix="Answer Next: " />
             </div>
           )}
         </div>

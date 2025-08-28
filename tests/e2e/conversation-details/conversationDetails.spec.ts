@@ -283,13 +283,9 @@ test.describe("Conversation Details", () => {
     const originalSubject = await getConversationSubject(page);
     const originalCounter = await getConversationCounter(page);
 
-    const nextConversationPreview = page
-      .getByTestId("message-thread-panel")
-      .locator("p")
-      .filter({ has: page.locator("text=Answer Next:") })
-      .filter({ hasNot: page.locator(`text=${originalSubject}`) })
-      .first();
-    await expect(nextConversationPreview).toBeVisible();
+    const nextConversationPreview = page.getByTestId("conversation-list-item-content");
+    await expect(nextConversationPreview.locator("text=Answer Next:")).toBeVisible();
+    await expect(nextConversationPreview.locator(`text=${originalSubject}`)).not.toBeVisible();
 
     await nextConversationPreview.click();
     await page.waitForLoadState("networkidle");

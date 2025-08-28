@@ -58,13 +58,10 @@ export const ConversationListItem = ({
 
 type ConversationListItemContentProps = {
   conversation: ListItem;
-  variant?: "default" | "next-ticket-preview";
+  emailPrefix?: string;
 };
 
-export const ConversationListItemContent = ({
-  conversation,
-  variant = "default",
-}: ConversationListItemContentProps) => {
+export const ConversationListItemContent = ({ conversation, emailPrefix }: ConversationListItemContentProps) => {
   const { searchParams } = useConversationsListInput();
   const searchTerms = searchParams.search ? searchParams.search.split(/\s+/).filter(Boolean) : [];
 
@@ -85,11 +82,10 @@ export const ConversationListItemContent = ({
     }
   }
 
-  const emailFrom = conversation.emailFrom ?? "Anonymous";
-  const displayEmailFrom = variant === "next-ticket-preview" ? `Answer Next: ${emailFrom}` : emailFrom;
+  const displayEmailFrom = `${emailPrefix ?? ""}${conversation.emailFrom ?? "Anonymous"}`;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" data-testid="conversation-list-item-content">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <p className="text-muted-foreground truncate text-xs md:text-sm">{displayEmailFrom}</p>
