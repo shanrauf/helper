@@ -16,6 +16,7 @@ import ConnectSupportEmail from "../integrations/connectSupportEmail";
 import GitHubSetting from "../integrations/githubSetting";
 import SlackSetting from "../integrations/slackSetting";
 import KnowledgeSetting from "../knowledge/knowledgeSetting";
+import MailboxSetting from "../preferences/mailboxSetting";
 import PreferencesSetting from "../preferences/preferencesSetting";
 import TeamSetting from "../team/teamSetting";
 import MetadataEndpointSetting from "../tools/metadataEndpointSetting";
@@ -80,10 +81,16 @@ export default function TabsPage() {
       ),
     },
     {
-      label: "Preferences",
+      label: "Mailbox settings",
+      id: "mailbox-settings",
+      icon: SettingsIcon, // TODO change to something else (or other one)
+      content: <MailboxSetting mailbox={mailbox} />,
+    },
+    {
+      label: "User preferences",
       id: "preferences",
       icon: SettingsIcon,
-      content: <PreferencesSetting mailbox={mailbox} />,
+      content: <PreferencesSetting />,
     },
   ];
 

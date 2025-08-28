@@ -47,7 +47,8 @@ const settingsItems = [
   { label: "Customers", id: "customers", icon: UserPlus },
   { label: "In-App Chat", id: "in-app-chat", icon: MonitorSmartphone },
   { label: "Integrations", id: "integrations", icon: LinkIcon },
-  { label: "Preferences", id: "preferences", icon: SettingsIcon },
+  { label: "Mailbox settings", id: "mailbox-settings", icon: SettingsIcon },
+  { label: "User preferences", id: "preferences", icon: SettingsIcon },
 ] as const;
 
 export function AppSidebar() {
