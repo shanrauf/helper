@@ -156,7 +156,7 @@ export const mailboxRouter = {
         )
         .groupBy(conversationMessages.userId);
 
-      const userIds = staffReplies.map(r => r.userId).filter((id): id is string => id !== null);
+      const userIds = staffReplies.map((r) => r.userId).filter((id): id is string => id !== null);
       const users = await db.query.userProfiles.findMany({
         where: inArray(userProfiles.id, userIds),
         with: {
@@ -167,11 +167,11 @@ export const mailboxRouter = {
       });
 
       const leaderboard = staffReplies
-        .map(reply => {
-          const user = users.find(u => u.id === reply.userId);
+        .map((reply) => {
+          const user = users.find((u) => u.id === reply.userId);
           return {
             userId: reply.userId,
-            displayName: user?.displayName || user?.user?.email || 'Unknown',
+            displayName: user?.displayName || user?.user?.email || "Unknown",
             email: user?.user?.email,
             replyCount: reply.count,
           };

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/trpc/react";
 
 const dayOptions = [
@@ -14,7 +14,7 @@ const dayOptions = [
 
 export default function StatsPage() {
   const [selectedDays, setSelectedDays] = useState(7);
-  
+
   const { data: openCounts } = api.mailbox.openCount.useQuery();
   const { data: leaderboardData } = api.mailbox.leaderboard.useQuery({ days: selectedDays });
 
@@ -42,9 +42,7 @@ export default function StatsPage() {
             <CardTitle className="text-2xl text-muted-foreground">All Open</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-8xl font-bold text-blue-600">
-              {openCounts?.all ?? 0}
-            </div>
+            <div className="text-8xl font-bold text-blue-600">{openCounts?.all ?? 0}</div>
           </CardContent>
         </Card>
 
@@ -53,9 +51,7 @@ export default function StatsPage() {
             <CardTitle className="text-2xl text-muted-foreground">Assigned</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-8xl font-bold text-green-600">
-              {openCounts?.assigned ?? 0}
-            </div>
+            <div className="text-8xl font-bold text-green-600">{openCounts?.assigned ?? 0}</div>
           </CardContent>
         </Card>
 
@@ -64,9 +60,7 @@ export default function StatsPage() {
             <CardTitle className="text-2xl text-muted-foreground">Unassigned</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-8xl font-bold text-orange-600">
-              {openCounts?.unassigned ?? 0}
-            </div>
+            <div className="text-8xl font-bold text-orange-600">{openCounts?.unassigned ?? 0}</div>
           </CardContent>
         </Card>
 
@@ -75,41 +69,30 @@ export default function StatsPage() {
             <CardTitle className="text-2xl text-muted-foreground">Mine</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-8xl font-bold text-purple-600">
-              {openCounts?.mine ?? 0}
-            </div>
+            <div className="text-8xl font-bold text-purple-600">{openCounts?.mine ?? 0}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl text-center">
-            Team Leaderboard - Last {selectedDays} days
-          </CardTitle>
+          <CardTitle className="text-4xl text-center">Team Leaderboard - Last {selectedDays} days</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {leaderboardData?.leaderboard.map((member, index) => (
-              <div
-                key={member.userId}
-                className="flex items-center justify-between p-6 bg-muted/50 rounded-lg"
-              >
+              <div key={member.userId} className="flex items-center justify-between p-6 bg-muted/50 rounded-lg">
                 <div className="flex items-center gap-4">
-                  <div className="text-4xl font-bold text-muted-foreground w-12">
-                    #{index + 1}
-                  </div>
+                  <div className="text-4xl font-bold text-muted-foreground w-12">#{index + 1}</div>
                   <div>
                     <div className="text-2xl font-semibold">{member.displayName}</div>
                     <div className="text-lg text-muted-foreground">{member.email}</div>
                   </div>
                 </div>
-                <div className="text-5xl font-bold text-primary">
-                  {member.replyCount}
-                </div>
+                <div className="text-5xl font-bold text-primary">{member.replyCount}</div>
               </div>
             ))}
-            {(!leaderboardData?.leaderboard.length) && (
+            {!leaderboardData?.leaderboard.length && (
               <div className="text-center text-2xl text-muted-foreground py-12">
                 No activity in the selected time period
               </div>
