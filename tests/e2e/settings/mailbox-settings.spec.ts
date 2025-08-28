@@ -6,11 +6,11 @@ test.use({ storageState: "tests/e2e/.auth/user.json" });
 test.describe("Settings - Mailbox settings", () => {
   test.beforeEach(async ({ page }) => {
     try {
-      await page.goto("/settings/mailbox-settings");
+      await page.goto("/settings/mailbox");
       await page.waitForLoadState("networkidle");
     } catch (error) {
       console.log("Initial navigation failed, retrying...", error);
-      await page.goto("/settings/mailbox-settings");
+      await page.goto("/settings/mailbox");
       await page.waitForLoadState("domcontentloaded");
     }
   });

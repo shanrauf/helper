@@ -33,18 +33,22 @@ export default function TabsPage() {
   const items = [
     {
       label: "Knowledge",
+      id: "knowledge",
       content: <KnowledgeSetting websitesEnabled={mailbox.firecrawlEnabled} />,
     },
     {
       label: "Team",
+      id: "team",
       content: <TeamSetting />,
     },
     {
       label: "Common Issues",
+      id: "common-issues",
       content: <CommonIssuesSetting />,
     },
     {
       label: "Customers",
+      id: "customers",
       content: (
         <>
           <CustomerSetting mailbox={mailbox} />
@@ -54,10 +58,12 @@ export default function TabsPage() {
     },
     {
       label: "In-App Chat",
+      id: "in-app-chat",
       content: <ChatWidgetSetting mailbox={mailbox} />,
     },
     {
       label: "Integrations",
+      id: "integrations",
       content: (
         <>
           <ToolSetting />
@@ -70,11 +76,12 @@ export default function TabsPage() {
     },
     {
       label: "Mailbox settings",
-      id: "mailbox-settings",
+      id: "mailbox",
       content: <MailboxSetting mailbox={mailbox} />,
     },
     {
       label: "User preferences",
+      id: "preferences",
       content: <PreferencesSetting />,
     },
   ];

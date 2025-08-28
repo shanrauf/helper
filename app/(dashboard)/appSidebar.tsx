@@ -47,7 +47,7 @@ const settingsItems = [
   { label: "Customers", id: "customers", icon: UserPlus },
   { label: "In-App Chat", id: "in-app-chat", icon: MonitorSmartphone },
   { label: "Integrations", id: "integrations", icon: LinkIcon },
-  { label: "Mailbox settings", id: "mailbox-settings", icon: Inbox },
+  { label: "Mailbox settings", id: "mailbox", icon: Inbox },
   { label: "User preferences", id: "preferences", icon: SettingsIcon },
 ] as const;
 
