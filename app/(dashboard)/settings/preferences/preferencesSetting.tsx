@@ -10,7 +10,7 @@ const PreferencesSetting = ({ mailbox }: { mailbox: RouterOutputs["mailbox"]["ge
       {mailbox ? (
         <>
           <MailboxNameSetting mailbox={mailbox} />
-          <ConfettiSetting mailbox={mailbox} />
+          <ConfettiSetting />
           <NextTicketPreviewSetting />
         </>
       ) : (
