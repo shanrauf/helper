@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { SentryContext } from "@/components/sentryContext";
 import { Toaster } from "@/components/ui/sonner";
+import { SessionProvider } from "@/components/useSession";
 import { TRPCReactProvider } from "@/trpc/react";
 import { HydrateClient } from "@/trpc/server";
 
@@ -16,10 +17,12 @@ export default function StatsLayout({ children }: { children: React.ReactNode })
     <NuqsAdapter>
       <Toaster richColors />
       <TRPCReactProvider>
-        <HydrateClient>
-          <SentryContext />
-          <main className="min-h-screen bg-background p-8">{children}</main>
-        </HydrateClient>
+        <SessionProvider>
+          <HydrateClient>
+            <SentryContext />
+            <main className="min-h-screen bg-background p-8">{children}</main>
+          </HydrateClient>
+        </SessionProvider>
       </TRPCReactProvider>
     </NuqsAdapter>
   );
