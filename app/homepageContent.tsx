@@ -29,8 +29,8 @@ const ChatWidget = ({
   });
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="border-b border-gray-200 p-4">
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="border-b border-border p-4 bg-card">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={onBack} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
@@ -38,46 +38,91 @@ const ChatWidget = ({
           </Button>
           <div className="flex items-center gap-2">
             <Image src="/logo_icon.png" alt="Helper" width={32} height={32} className="rounded" />
-            <h1 className="text-xl font-bold text-orange-500">Helper</h1>
+            <h1 className="text-xl font-bold text-primary">Helper</h1>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 bg-background">
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             {messages.map((message) => (
-              <div
-                className={cn(
-                  "rounded-lg p-3 max-w-[80%]",
-                  message.role === "user" ? "border border-orange-300 ml-auto bg-orange-50" : "bg-gray-100",
-                )}
-                key={message.id}
-              >
-                <MessageContent className="prose prose-sm max-w-none" message={message} />
+              <div className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")} key={message.id}>
+                <div className="max-w-[85%] rounded-lg p-4 shadow-sm bg-muted text-foreground border border-border">
+                  <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+                    <span className="font-medium">{message.role === "user" ? "You" : "Helper"}</span>
+                  </div>
+                  <div className="prose prose-sm max-w-none prose-p:mb-2 prose-p:last:mb-0 prose-headings:mb-2 prose-headings:mt-4 prose-headings:first:mt-0 prose-ul:mb-2 prose-ol:mb-2 prose-li:mb-1 prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:px-3 prose-blockquote:py-2 prose-blockquote:rounded-r prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:p-3 prose-pre:rounded-lg">
+                    <MessageContent message={message} />
+                  </div>
+                </div>
               </div>
             ))}
-            {agentTyping && <div className="animate-pulse text-gray-500">An agent is typing...</div>}
-            {status === "submitted" && <div className="animate-pulse text-gray-500">Thinking...</div>}
+            {agentTyping && (
+              <div className="flex justify-start">
+                <div className="bg-muted text-foreground border border-border rounded-lg p-4 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                    <span className="font-medium">Helper</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                      <div
+                        className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                    </div>
+                    <span className="text-muted-foreground">An agent is typing...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {status === "submitted" && !agentTyping && (
+              <div className="flex justify-start">
+                <div className="bg-muted text-foreground border border-border rounded-lg p-4 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                    <span className="font-medium">Helper</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                      <div
+                        className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                    </div>
+                    <span className="text-muted-foreground">Thinking...</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 p-4 bg-white">
+      <div className="border-t border-border p-4 bg-card">
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="flex gap-2">
+          <form onSubmit={handleSubmit} className="flex gap-3">
             <Input
               placeholder="Type your message..."
               value={input}
               onChange={handleInputChange}
-              className="flex-1"
+              className="flex-1 bg-background border-border focus:border-primary focus:ring-primary"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   handleSubmit(e);
                 }
               }}
             />
-            <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
+            <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Send
             </Button>
           </form>
@@ -115,13 +160,13 @@ export const HomepageContent = ({ mailboxName }: { mailboxName: string }) => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <Image src="/logo_icon.png" alt="Helper" width={80} height={80} className="rounded-lg" />
           </div>
-          <h1 className="text-4xl font-bold text-orange-500 mb-2">{mailboxName}</h1>
+          <h1 className="text-4xl font-bold text-primary mb-2">{mailboxName}</h1>
         </div>
 
         <div className="mb-12">
@@ -131,7 +176,7 @@ export const HomepageContent = ({ mailboxName }: { mailboxName: string }) => {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Ask a question"
-              className="w-full px-6 py-4 text-lg border-2 border-blue-300 rounded-full focus:outline-none focus:border-blue-500 pr-16"
+              className="w-full px-6 py-4 text-lg border-2 border-border rounded-full focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 bg-background text-foreground placeholder:text-muted-foreground pr-16"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && question.trim()) {
                   handleQuestionClick();
@@ -141,7 +186,7 @@ export const HomepageContent = ({ mailboxName }: { mailboxName: string }) => {
             <button
               onClick={() => question.trim() && handleQuestionClick()}
               disabled={!question.trim()}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -151,13 +196,13 @@ export const HomepageContent = ({ mailboxName }: { mailboxName: string }) => {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-6">Recommended</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-foreground">Recommended</h2>
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="p-4 border rounded-lg animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div key={i} className="p-4 border border-border rounded-lg animate-pulse bg-card">
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
                 </div>
               ))}
             </div>
@@ -170,11 +215,11 @@ export const HomepageContent = ({ mailboxName }: { mailboxName: string }) => {
                     setQuestion(question.text);
                     handleQuestionClick();
                   }}
-                  className="p-4 border rounded-lg hover:bg-gray-50 text-left transition-colors"
+                  className="p-4 border border-border rounded-lg hover:bg-muted/50 text-left transition-colors bg-card text-foreground"
                 >
                   <div className="flex items-start space-x-3">
                     <span className="text-2xl">{question.emoji}</span>
-                    <span className="text-gray-800">{question.text}</span>
+                    <span className="text-foreground">{question.text}</span>
                   </div>
                 </button>
               ))}
