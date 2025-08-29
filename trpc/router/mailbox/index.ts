@@ -1,4 +1,5 @@
 import { TRPCError, type TRPCRouterRecord } from "@trpc/server";
+import { subDays } from "date-fns";
 import { and, count, eq, gte, inArray, isNotNull, isNull, SQL } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
@@ -137,10 +138,7 @@ export const mailboxRouter = {
       }),
     )
     .query(async ({ input }) => {
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - input.days);
-
-      const staffReplies = await db
+      const staffReplyAnalyticsByUser = await db
         .select({
           userId: conversationMessages.userId,
           count: count(),
@@ -150,15 +148,17 @@ export const mailboxRouter = {
           and(
             eq(conversationMessages.role, "staff"),
             isNotNull(conversationMessages.userId),
-            gte(conversationMessages.createdAt, startDate),
+            gte(conversationMessages.createdAt, subDays(new Date(), input.days)),
             isNull(conversationMessages.deletedAt),
           ),
         )
         .groupBy(conversationMessages.userId);
 
-      const userIds = staffReplies.map((r) => r.userId).filter((id): id is string => id !== null);
       const users = await db.query.userProfiles.findMany({
-        where: inArray(userProfiles.id, userIds),
+        where: inArray(
+          userProfiles.id,
+          staffReplyAnalyticsByUser.flatMap((r) => (r.userId ? [r.userId] : [])),
+        ),
         with: {
           user: {
             columns: { email: true },
@@ -166,14 +166,14 @@ export const mailboxRouter = {
         },
       });
 
-      const leaderboard = staffReplies
-        .map((reply) => {
-          const user = users.find((u) => u.id === reply.userId);
+      const leaderboard = staffReplyAnalyticsByUser
+        .map((staffReplyAnalytics) => {
+          const { user, displayName } = users.find((u) => u.id === staffReplyAnalytics.userId) ?? {};
           return {
-            userId: reply.userId,
-            displayName: user?.displayName || user?.user?.email || "Unknown",
-            email: user?.user?.email,
-            replyCount: reply.count,
+            userId: staffReplyAnalytics.userId,
+            displayName: displayName || user?.email || "Unknown",
+            email: user?.email,
+            replyCount: staffReplyAnalytics.count,
           };
         })
         .sort((a, b) => b.replyCount - a.replyCount);
