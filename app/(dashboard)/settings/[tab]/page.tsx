@@ -1,6 +1,5 @@
 "use client";
 
-import { BookOpen, Layers, Link, MonitorSmartphone, Settings as SettingsIcon, UserPlus, Users } from "lucide-react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/(dashboard)/loading";
 import { FileUploadProvider } from "@/components/fileUploadContext";
