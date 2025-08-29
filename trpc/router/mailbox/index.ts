@@ -1,11 +1,13 @@
 import { TRPCError, type TRPCRouterRecord } from "@trpc/server";
-import { and, count, eq, gte, inArray, isNotNull, isNull, SQL } from "drizzle-orm";
+import { subDays } from "date-fns";
+import { and, count, eq, isNotNull, isNull, SQL } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { conversationMessages, conversations, mailboxes, userProfiles } from "@/db/schema";
+import { conversations, mailboxes } from "@/db/schema";
 import { triggerEvent } from "@/jobs/trigger";
 import { getGuideSessionsForMailbox } from "@/lib/data/guide";
 import { getMailboxInfo } from "@/lib/data/mailbox";
+import { getMemberStats } from "@/lib/data/stats";
 import { conversationsRouter } from "./conversations/index";
 import { customersRouter } from "./customers";
 import { faqsRouter } from "./faqs";
@@ -137,47 +139,18 @@ export const mailboxRouter = {
       }),
     )
     .query(async ({ input }) => {
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - input.days);
-
-      const staffReplies = await db
-        .select({
-          userId: conversationMessages.userId,
-          count: count(),
-        })
-        .from(conversationMessages)
-        .where(
-          and(
-            eq(conversationMessages.role, "staff"),
-            isNotNull(conversationMessages.userId),
-            gte(conversationMessages.createdAt, startDate),
-            isNull(conversationMessages.deletedAt),
-          ),
-        )
-        .groupBy(conversationMessages.userId);
-
-      const userIds = staffReplies.map((r) => r.userId).filter((id): id is string => id !== null);
-      const users = await db.query.userProfiles.findMany({
-        where: inArray(userProfiles.id, userIds),
-        with: {
-          user: {
-            columns: { email: true },
-          },
-        },
+      const stats = await getMemberStats({
+        startDate: subDays(new Date(), input.days),
+        endDate: new Date(),
       });
 
-      const leaderboard = staffReplies
-        .map((reply) => {
-          const user = users.find((u) => u.id === reply.userId);
-          return {
-            userId: reply.userId,
-            displayName: user?.displayName || user?.user?.email || "Unknown",
-            email: user?.user?.email,
-            replyCount: reply.count,
-          };
-        })
-        .sort((a, b) => b.replyCount - a.replyCount);
-
-      return { leaderboard };
+      return {
+        leaderboard: stats.map((member) => ({
+          userId: member.id,
+          displayName: member.displayName || "Unknown",
+          email: member.email,
+          replyCount: member.replyCount,
+        })),
+      };
     }),
 } satisfies TRPCRouterRecord;
