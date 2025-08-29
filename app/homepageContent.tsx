@@ -22,6 +22,9 @@ const ChatWidget = ({
 }) => {
   const { messages, input, handleInputChange, handleSubmit, agentTyping, status, append } = useChat({
     conversation,
+    ai: {
+      generateId: () => `client_${Math.random().toString(36).slice(-6)}`,
+    },
   });
 
   useRunOnce(() => {
@@ -46,8 +49,11 @@ const ChatWidget = ({
       <div className="flex-1 overflow-y-auto p-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col gap-6">
-            {messages.map((message) => (
-              <div className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")} key={message.id}>
+            {messages.map((message, index) => (
+              <div
+                className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}
+                key={`${message.id}-${index}`}
+              >
                 <div className="max-w-[85%] rounded-lg p-4 shadow-sm bg-muted text-foreground border border-border">
                   <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
                     <span className="font-medium">{message.role === "user" ? "You" : "Helper"}</span>
